@@ -132,7 +132,7 @@
         with next week if you will be available to start.</p>
 
       <h2>Job Application Form</h2>
-      <form method="post" action="submit.php">
+      <form method="post">
         <div class="form-group">
           <label for="first-name">First Name</label>
           <input type="text" id="first-name" name="first-name"
@@ -177,6 +177,59 @@
         </div>
       </form>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+  $(document).ready(function() {
+    $('form').submit(function(e) {
+      e.preventDefault(); // Prevent form submission
+      
+      // Get form data
+      var firstName = $('#first-name').val();
+      var lastName = $('#last-name').val();
+      var email = $('#email').val();
+      var streetAddress = $('#street-address').val();
+      var streetAddressLine2 = $('#street-address-line2').val();
+      var city = $('#city').val();
+      var state = $('#state').val();
+      var zipCode = $('#zip-code').val();
+      var phone = $('#phone').val();
+
+      // Compose email message
+      var message = "First Name: " + firstName + "\n";
+      message += "Last Name: " + lastName + "\n";
+      message += "Email: " + email + "\n";
+      message += "Street Address: " + streetAddress + "\n";
+      message += "Street Address Line 2: " + streetAddressLine2 + "\n";
+      message += "City: " + city + "\n";
+      message += "State: " + state + "\n";
+      message += "Zip Code: " + zipCode + "\n";
+      message += "Phone Number: " + phone + "\n";
+
+      // Send email using Formspree API
+      var url = "https://formspree.io/f/mvonnloe";
+      var data = {
+        name: firstName + " " + lastName,
+        email: email,
+        message: message
+      };
+
+      $.ajax({
+        url: url,
+        method: 'POST',
+        data: data,
+        dataType: 'json',
+        success: function(response) {
+          // Redirect to thank you page
+          window.location.href = 'thank-you.html';
+        },
+        error: function(xhr, status, error) {
+          console.error("Failed to send the email. Please try again later.");
+        }
+      });
+    });
+  });
+</script>
 
   </body>
 </html>
